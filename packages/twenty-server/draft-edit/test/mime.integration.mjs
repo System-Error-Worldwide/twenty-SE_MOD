@@ -42,3 +42,33 @@ await assert.rejects(build({ subject: 'unsafe\r\nBcc: hidden@example.invalid' })
 await assert.rejects(build({ attachments: [{ filename: 'bad\nname.pdf', content: secondPdf, contentType: 'application/pdf' }] }), /Invalid attachment/);
 await assert.rejects(build({ recipients: ['other@example.invalid'] }), /Unsupported change/);
 console.log('PASS: MIME edit preserves and replaces PDF bytes and rejects unsafe changes');
+
+const inlineBytes = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a1XQAAAAASUVORK5CYII=', 'base64');
+const cidSource = await new MailComposer({
+  from: 'sender@example.invalid', to: 'recipient@example.invalid', subject: 'CID attachment regression',
+  text: 'Before', html: '<p>Before</p><img src="cid:inline-logo">',
+  attachments: [
+    { filename: 'ordinary.pdf', content: firstPdf, contentType: 'application/pdf', cid: 'ordinary-pdf', contentDisposition: 'attachment' },
+    { filename: 'logo.png', content: inlineBytes, contentType: 'image/png', cid: 'inline-logo', contentDisposition: 'inline' },
+  ],
+}).compile().build();
+const cidParsed = await PostalMime.parse(cidSource);
+assert.equal(cidParsed.attachments.find((item) => item.filename === 'ordinary.pdf').disposition, 'attachment');
+for (const attachments of [[], [{ filename: 'replacement.pdf', content: secondPdf, contentType: 'application/pdf' }]]) {
+  const result = await PostalMime.parse(await build({ attachments }, cidSource));
+  assert.equal(result.attachments.some((item) => item.filename === 'ordinary.pdf'), false);
+  assert.equal(result.attachments.length, 1 + attachments.length);
+  const inline = result.attachments.find((item) => item.filename === 'logo.png');
+  assert.equal(inline.disposition, 'inline');
+  assert.deepEqual(Buffer.from(inline.content), inlineBytes);
+}
+console.log('PASS: CID-bearing PDF removal/replacement preserves genuine inline image bytes');
+
+const emptySubject = await build({ subject: '' });
+assert.equal((await PostalMime.parse(emptySubject)).subject ?? '', '');
+const afterEmptySubject = await PostalMime.parse(await build({ body: { text: 'Still editable' } }, emptySubject));
+assert.equal(afterEmptySubject.subject ?? '', '');
+assert.equal(afterEmptySubject.text.trim(), 'Still editable');
+assert.deepEqual(Buffer.from(afterEmptySubject.attachments[0].content), firstPdf);
+assert.equal(afterEmptySubject.bcc[0].address, 'hidden@example.invalid');
+console.log('PASS: clearing subject permits the next body edit without changing PDF or Bcc');

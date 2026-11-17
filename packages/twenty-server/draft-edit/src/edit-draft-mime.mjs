@@ -36,19 +36,20 @@ export async function editDraftMime({ source, changes, PostalMime, MailComposer 
   }
   const sourceText = source.toString('latin1');
   if (/content-type\s*:\s*(?:multipart\/signed|multipart\/encrypted|application\/(?:pkcs7|x-pkcs7|pgp))/i.test(sourceText)) throw new Error('Signed or encrypted drafts are unsupported');
-  if (typeof parsed.subject !== 'string' || !parsed.from || !parsed.messageId || !parsed.date) throw new Error('Incomplete message');
+  const subject = parsed.subject ?? '';
+  if (typeof subject !== 'string' || !parsed.from || !parsed.messageId || !parsed.date) throw new Error('Incomplete message');
   if (changes.subject !== undefined && (typeof changes.subject !== 'string' || /[\r\n]/.test(changes.subject))) throw new Error('Invalid subject');
   if (changes.body !== undefined && (typeof changes.body !== 'object' || changes.body === null || typeof changes.body.text !== 'string' || (changes.body.html !== undefined && typeof changes.body.html !== 'string'))) throw new Error('Invalid body');
   const existing = (parsed.attachments ?? []).map((item) => ({
     filename: item.filename || 'attachment', content: Buffer.from(item.content), contentType: item.mimeType || 'application/octet-stream',
     disposition: item.disposition || 'attachment', cid: item.contentId?.replace(/^<|>$/g, ''),
   }));
-  const preservedInline = existing.filter((item) => item.disposition === 'inline' || item.cid);
+  const preservedInline = existing.filter((item) => item.disposition === 'inline');
   if (changes.attachments !== undefined && changes.addAttachments !== undefined) throw new Error('Conflicting attachment changes');
   const attachments = changes.attachments !== undefined ? [...preservedInline, ...changes.attachments] : [...existing, ...(changes.addAttachments ?? [])];
   const options = {
     from: addressList(parsed.from), to: addressList(parsed.to), cc: addressList(parsed.cc), bcc: addressList(parsed.bcc),
-    replyTo: addressList(parsed.replyTo), subject: changes.subject ?? parsed.subject,
+    replyTo: addressList(parsed.replyTo), subject: changes.subject ?? subject,
     messageId: parsed.messageId, date: new Date(parsed.date), inReplyTo: parsed.inReplyTo, references: parsed.references,
     text: changes.body?.text ?? parsed.text, html: changes.body ? changes.body.html : parsed.html,
     attachments: checkAttachments(attachments), headers,

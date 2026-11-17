@@ -68,7 +68,7 @@ export class DraftEditService {
       if (!original || !original.isDraft || original.uidValidity !== target.uidValidity) throw new Error('Draft unavailable');
       const parsed = await this.PostalMime.parse(original.source);
       return {
-        target, revision: draftRevision(original.source), subject: parsed.subject, text: parsed.text, html: parsed.html,
+        target, revision: draftRevision(original.source), subject: parsed.subject ?? '', text: parsed.text, html: parsed.html,
         recipients: { from: mailboxAddresses(parsed.from), to: mailboxAddresses(parsed.to), cc: mailboxAddresses(parsed.cc), bcc: mailboxAddresses(parsed.bcc) },
         attachments: (parsed.attachments ?? []).map(({ filename, mimeType, disposition }) => ({ filename, mimeType, disposition })),
       };
