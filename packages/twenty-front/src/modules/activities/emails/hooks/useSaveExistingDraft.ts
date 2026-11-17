@@ -33,7 +33,12 @@ type ToolResponse<T> = {
   result?: T;
   error?: string;
 };
-type DraftUpdate = { status: string; target?: DraftTarget; revision?: string };
+type DraftUpdate = {
+  status: string;
+  crmRefresh?: 'updated' | 'pending' | 'not_imported';
+  target?: DraftTarget;
+  revision?: string;
+};
 
 const callDraftTool = async <T>(
   name: string,
