@@ -1,0 +1,107 @@
+{
+  "scope": "CRM attachment identity and signed PDF downloads after mailbox draft editing",
+  "candidate": {
+    "archiveDigest": "875932cbba3e5aa959a872da5109b9681a6a51e5de0a0e4c71e06fbe3571c648",
+    "branch": "loop/owned/twenty-outreach/mac-mini-moses-2/01a1e41f-49d5-7cc2-8b58-6b29bad330be",
+    "builderInvocationId": "01a1e41f-49d5-7cc2-8b58-6b29bad330be",
+    "commitSha": "e9e29a5f4af19a7714141066cb80ea0d36e47263",
+    "frozenAt": "2026-11-17T04:44:41.465Z",
+    "remoteId": "github.com/System-Error-Worldwide/twenty-SE_MOD",
+    "repoId": "twenty-se-mod",
+    "treeSha": "1bd6dcb221cde52ff70c935ac91e1d74e615bbd4"
+  },
+  "pullRequest": "https://github.com/System-Error-Worldwide/twenty-SE_MOD/pull/3",
+  "mergeCommit": "099e320fd2d149a2be0b1406bbcda37048f48f46",
+  "acceptance": {
+    "verdict": "PASS",
+    "evaluator": "release-acceptance-e9e29a5f4a",
+    "completedAt": "2026-11-17T04:51:08.281Z",
+    "evidenceSha256": "c2efe043aa2832180eb1fae89335d2e662eab5a6c0200a5dfbbaa15d90a4da31",
+    "checks": [
+      {
+        "checkId": "unit-rules",
+        "view": "WHITE_BOX",
+        "required": true,
+        "status": "PASS",
+        "exitCode": 0,
+        "outputDigest": "67f1d789803384f0dde826e76ef80ffbe995c5a98bec7adce32f0e9467d11e0d"
+      },
+      {
+        "checkId": "frontend-and-release-binding",
+        "view": "WHITE_BOX",
+        "required": true,
+        "status": "PASS",
+        "exitCode": 0,
+        "outputDigest": "68cfea1160dc4e29632fb0b773bc5ee7f338ca91ddae865ac9eb1ca0ce9928c2"
+      },
+      {
+        "checkId": "isolated-mailbox-download-and-release",
+        "view": "BLACK_BOX",
+        "required": true,
+        "status": "PASS",
+        "exitCode": 0,
+        "outputDigest": "a04a50e99e0380a85023f1ae456bfb31491d99ba14476a776619f2d8ad5621d1"
+      },
+      {
+        "checkId": "atomic-plugin-upgrade-and-rollback",
+        "view": "BLACK_BOX",
+        "required": true,
+        "status": "PASS",
+        "exitCode": 0,
+        "outputDigest": "4e6bfd16e8854d10569faea29623e62cbd524f9c7dd643097dce70c6caf390a1"
+      },
+      {
+        "checkId": "independent-real-sql-atomicity",
+        "view": "BLACK_BOX",
+        "required": true,
+        "status": "PASS",
+        "exitCode": 0,
+        "outputDigest": "1108abf170ac86312d170f8ef449c3e8bec946b1b0982120af0d351213fa353f"
+      }
+    ],
+    "findings": [
+      {
+        "id": "crm-draft-attachment-identity-stale",
+        "refutation": "REFUTED"
+      },
+      {
+        "id": "crm-direct-file-ownership-not-claimed",
+        "refutation": "REFUTED"
+      },
+      {
+        "id": "crm-orm-update-result-shape",
+        "refutation": "REFUTED"
+      }
+    ]
+  },
+  "deployment": {
+    "release": "draft-edit-e9e29a5f4a",
+    "pluginRollbackVerifiedAt": "2026-11-17T04:53:09Z",
+    "startedAt": "2026-11-17T04:53:18Z",
+    "frontendIndexSha256": "e1bdc5d8ce74328615910da22d50503bbb5fd1d4468660e223a084ea61b72807",
+    "frontendChanged": false,
+    "otherTwentyServicesRestarted": false,
+    "liveVerification": {
+      "checkedAt": "2026-11-17T04:57:42.680142+00:00",
+      "nativeSaveAndReload": true,
+      "crmDraftRecords": 1,
+      "isDraft": true,
+      "crmMailboxExternalId": "Drafts:81",
+      "attachmentCount": 1,
+      "downloadStatus": 200,
+      "downloadBytes": 615,
+      "downloadSha256": "0bfc6c897152b07563957ae37333d22c8d9825c0d9b0648aa7338d45a2607cc0",
+      "scope": "Tagged draft between owner-controlled addresses; native text edit preserving synthetic PDF"
+    },
+    "healthyAt": "2026-11-17T04:54:52Z"
+  },
+  "sending": false,
+  "backup": {
+    "tag": "twenty-20261117T045641Z",
+    "completedAt": "2026-11-17T04:57:42Z",
+    "systemdResult": "success",
+    "systemdExitStatus": 0,
+    "recurringTimerActive": true,
+    "newRestoreDrillPerformed": false
+  }
+}
