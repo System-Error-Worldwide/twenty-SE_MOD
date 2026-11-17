@@ -1,7 +1,7 @@
 import { PostgresJournal } from './postgres-journal.mjs';
 import { refreshCrmDraft } from './refresh-crm-draft.mjs';
 
-export function createTwentyBindings({ accounts, imap, composer, dataSource, emailOperationDraft, getStandardFolder, draftsStandard, PostalMime, MailComposer, compileBody }) {
+export function createTwentyBindings({ accounts, imap, composer, dataSource, emailOperationDraft, getStandardFolder, draftsStandard, PostalMime, MailComposer, compileBody, extractImapBodyStructureAttachments, filterImportableMessageAttachments, resolveMessageAttachmentMimeType, attachmentFieldIdentifier }) {
   if (!accounts || !imap || !composer || !dataSource || !emailOperationDraft || !getStandardFolder || !draftsStandard || !PostalMime || !MailComposer) throw new Error('Incomplete Twenty bindings');
   const pool = {
     async query(sql, parameters) {
@@ -24,7 +24,10 @@ export function createTwentyBindings({ accounts, imap, composer, dataSource, ema
     },
     async connect(account) { return imap.getClient(account.id); },
     async close(client) { return imap.closeClient(client); },
-    async refreshDraft({ context, accountId, parsed }) { return refreshCrmDraft({ dataSource, context, accountId, parsed }); },
+    async refreshDraft({ context, accountId, parsed, previousTarget, newTarget, bodyStructure }) {
+      if (!bodyStructure || !extractImapBodyStructureAttachments || !filterImportableMessageAttachments || !resolveMessageAttachmentMimeType || !attachmentFieldIdentifier) throw new Error('Attachment metadata unavailable');
+      const attachments = filterImportableMessageAttachments(extractImapBodyStructureAttachments(bodyStructure)).map((item) => ({ ...item, mimeType: resolveMessageAttachmentMimeType(item) }));
+      return refreshCrmDraft({ dataSource, context, accountId, parsed, previousTarget, newTarget, attachments, attachmentFieldIdentifier }); },
     async resolveFiles({ context, files }) {
       const resolved = await composer.getAttachments(files, context.workspaceId);
       if (!Array.isArray(resolved) || resolved.length !== files.length) throw new Error('Files unavailable');
