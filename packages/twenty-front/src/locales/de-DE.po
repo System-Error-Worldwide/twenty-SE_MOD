@@ -33922,3 +33922,71 @@ msgstr "Vergrößern"
 #: src/modules/settings/data-model/graph-overview/components/SettingsDataModelOverview.tsx
 msgid "Zoom out"
 msgstr "Verkleinern"
+
+#. js-lingui-id: vgpfCi
+msgid "Save draft"
+msgstr "Entwurf speichern"
+
+#. js-lingui-id: VwrmEx
+msgid "Saving edited text may change the original formatting."
+msgstr "Beim Speichern des bearbeiteten Textes kann sich die ursprüngliche Formatierung ändern."
+
+#. js-lingui-id: M1ktLQ
+msgid "Draft service unavailable"
+msgstr "Der Entwurfsdienst ist nicht verfügbar."
+
+#. js-lingui-id: VN20Yq
+msgid "Draft identity unavailable"
+msgstr "Der Entwurf kann nicht eindeutig erkannt werden."
+
+#. js-lingui-id: 3onlZA
+msgid "Draft list unavailable or incomplete"
+msgstr "Die Entwurfsliste ist nicht verfügbar oder unvollständig."
+
+#. js-lingui-id: /BlYF+
+msgid "Draft identity is missing or ambiguous"
+msgstr "Der Entwurf fehlt oder ist nicht eindeutig."
+
+#. js-lingui-id: 7X9KgR
+msgid "Draft unavailable"
+msgstr "Der Entwurf ist nicht verfügbar."
+
+#. js-lingui-id: t/DGdv
+msgid "The mailbox draft differs from the displayed draft. Reopen it before saving."
+msgstr "Der Entwurf im Postfach weicht von der angezeigten Version ab. Öffne ihn vor dem Speichern erneut."
+
+#. js-lingui-id: 1D2b0S
+msgid "The mailbox sender or recipients differ from the displayed draft. Reopen it before saving."
+msgstr "Absender oder Empfänger im Postfach weichen vom angezeigten Entwurf ab. Öffne ihn vor dem Speichern erneut."
+
+#. js-lingui-id: 5i4IZB
+msgid "Saving changes to sender or recipients is not supported."
+msgstr "Änderungen an Absender oder Empfängern können nicht gespeichert werden."
+
+#. js-lingui-id: GIiXdT
+msgid "No draft changes to save"
+msgstr "Es gibt keine Änderungen am Entwurf zu speichern."
+
+#. js-lingui-id: ShYpXy
+msgid "The draft changed elsewhere. Reopen it before saving."
+msgstr "Der Entwurf wurde an anderer Stelle geändert. Öffne ihn vor dem Speichern erneut."
+
+#. js-lingui-id: uaITUm
+msgid "Save needs recovery. Do not retry until the mailbox is checked."
+msgstr "Der Speichervorgang muss überprüft werden. Versuche es erst erneut, nachdem das Postfach geprüft wurde."
+
+#. js-lingui-id: T97IbA
+msgid "The draft could not be saved."
+msgstr "Der Entwurf konnte nicht gespeichert werden."
+
+#. js-lingui-id: BlmX6O
+msgid "Draft saved"
+msgstr "Entwurf gespeichert"
+
+#. js-lingui-id: VdUQd2
+msgid "Draft could not be saved"
+msgstr "Der Entwurf konnte nicht gespeichert werden."
+
+#. js-lingui-id: VnT7Qu
+msgid "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."
+msgstr "Der Entwurf wurde im Postfach gespeichert, aber die CRM-Aktualisierung muss wiederhergestellt werden. Erstelle keinen doppelten Entwurf."

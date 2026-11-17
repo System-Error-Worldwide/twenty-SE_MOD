@@ -1,0 +1,17 @@
+const assert = require('node:assert/strict');
+const { execFileSync } = require('node:child_process');
+const fs = require('node:fs');
+const crypto = require('node:crypto');
+const target = '/app/packages/twenty-server/dist/engine/core-modules/tool-provider/tool-provider.module.js';
+const digest = () => crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex');
+const apply = () => execFileSync(process.execPath, ['/work/src/apply-twenty-patch.cjs', target, '--apply']);
+const rollback = () => execFileSync(process.execPath, ['/work/src/rollback-twenty-patch.cjs', target, '--rollback']);
+const base = digest();
+apply(); const patched = digest(); assert.notEqual(patched, base);
+rollback(); assert.equal(digest(), base);
+rollback(); assert.equal(digest(), base);
+apply(); assert.equal(digest(), patched);
+const foreign = '/tmp/not-twenty-module.js'; fs.writeFileSync(foreign, 'different build');
+assert.throws(() => execFileSync(process.execPath, ['/work/src/rollback-twenty-patch.cjs', foreign, '--rollback'], { stdio: 'pipe' }));
+assert.equal(fs.readFileSync(foreign, 'utf8'), 'different build');
+console.log('PASS: exact version apply, rollback, reapply and mismatch refusal');

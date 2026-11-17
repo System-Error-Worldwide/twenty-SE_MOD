@@ -1,0 +1,19 @@
+name: SE draft editing
+on:
+  pull_request:
+    branches: ['se/v2.58']
+  push:
+    branches: ['se/v2.58']
+permissions:
+  contents: read
+jobs:
+  draft-edit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test packages/twenty-server/draft-edit/test/*.test.mjs
+      - run: bash -n packages/twenty-server/draft-edit/scripts/*.sh packages/twenty-server/draft-edit/test/release.integration.sh

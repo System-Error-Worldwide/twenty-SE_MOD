@@ -33919,3 +33919,71 @@ msgstr "Zoom in"
 #: src/modules/settings/data-model/graph-overview/components/SettingsDataModelOverview.tsx
 msgid "Zoom out"
 msgstr "Zoom out"
+
+#. js-lingui-id: vgpfCi
+msgid "Save draft"
+msgstr "Save draft"
+
+#. js-lingui-id: VwrmEx
+msgid "Saving edited text may change the original formatting."
+msgstr "Saving edited text may change the original formatting."
+
+#. js-lingui-id: M1ktLQ
+msgid "Draft service unavailable"
+msgstr "Draft service unavailable"
+
+#. js-lingui-id: VN20Yq
+msgid "Draft identity unavailable"
+msgstr "Draft identity unavailable"
+
+#. js-lingui-id: 3onlZA
+msgid "Draft list unavailable or incomplete"
+msgstr "Draft list unavailable or incomplete"
+
+#. js-lingui-id: /BlYF+
+msgid "Draft identity is missing or ambiguous"
+msgstr "Draft identity is missing or ambiguous"
+
+#. js-lingui-id: 7X9KgR
+msgid "Draft unavailable"
+msgstr "Draft unavailable"
+
+#. js-lingui-id: t/DGdv
+msgid "The mailbox draft differs from the displayed draft. Reopen it before saving."
+msgstr "The mailbox draft differs from the displayed draft. Reopen it before saving."
+
+#. js-lingui-id: 1D2b0S
+msgid "The mailbox sender or recipients differ from the displayed draft. Reopen it before saving."
+msgstr "The mailbox sender or recipients differ from the displayed draft. Reopen it before saving."
+
+#. js-lingui-id: 5i4IZB
+msgid "Saving changes to sender or recipients is not supported."
+msgstr "Saving changes to sender or recipients is not supported."
+
+#. js-lingui-id: GIiXdT
+msgid "No draft changes to save"
+msgstr "No draft changes to save"
+
+#. js-lingui-id: ShYpXy
+msgid "The draft changed elsewhere. Reopen it before saving."
+msgstr "The draft changed elsewhere. Reopen it before saving."
+
+#. js-lingui-id: uaITUm
+msgid "Save needs recovery. Do not retry until the mailbox is checked."
+msgstr "Save needs recovery. Do not retry until the mailbox is checked."
+
+#. js-lingui-id: T97IbA
+msgid "The draft could not be saved."
+msgstr "The draft could not be saved."
+
+#. js-lingui-id: BlmX6O
+msgid "Draft saved"
+msgstr "Draft saved"
+
+#. js-lingui-id: VdUQd2
+msgid "Draft could not be saved"
+msgstr "Draft could not be saved"
+
+#. js-lingui-id: VnT7Qu
+msgid "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."
+msgstr "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."

@@ -1,8 +1,11 @@
+import { STANDARD_OBJECTS } from 'twenty-shared/metadata';
 import { FieldMetadataType } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
 import { getJoinColumnNameForRelationField } from 'src/engine/metadata-modules/field-metadata/utils/get-join-column-name-for-relation-field.util';
 import { FlatEntityMapsException } from 'src/engine/metadata-modules/flat-entity/exceptions/flat-entity-maps.exception';
+import { findFlatEntityByUniversalIdentifierOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-universal-identifier-or-throw.util';
+import { findManyFlatEntityByIdInFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/utils/find-many-flat-entity-by-id-in-flat-entity-maps.util';
 import { type FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
 import { findFlatEntityByIdInFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps.util';
 import { type OrmFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/types/orm-flat-field-metadata.type';
@@ -53,13 +56,36 @@ export const buildTimelineActivityTargetJoinColumns = ({
     throw error;
   }
 
+  const timeline = findFlatEntityByUniversalIdentifierOrThrow({
+    flatEntityMaps: flatObjectMetadataMaps,
+    universalIdentifier: STANDARD_OBJECTS.timelineActivity.universalIdentifier,
+  });
+  const targetIds = new Set(
+    findManyFlatEntityByIdInFlatEntityMaps({
+      flatEntityIds: timeline.fieldIds,
+      flatEntityMaps: flatFieldMetadataMaps,
+    })
+      .filter(
+        ({ morphId }) =>
+          morphId ===
+          STANDARD_OBJECTS.timelineActivity.morphIds.targetMorphId.morphId,
+      )
+      .map(
+        ({ relationTargetObjectMetadataId }) => relationTargetObjectMetadataId,
+      )
+      .filter(isDefined),
+  );
+
   return targetFlatFieldMetadatas
     .map(
       (flatFieldMetadata): TimelineActivityRuleTargetJoinColumn | undefined => {
         const targetObjectMetadataId =
           flatFieldMetadata.relationTargetObjectMetadataId;
 
-        if (!isDefined(targetObjectMetadataId)) {
+        if (
+          !isDefined(targetObjectMetadataId) ||
+          !targetIds.has(targetObjectMetadataId)
+        ) {
           return undefined;
         }
 

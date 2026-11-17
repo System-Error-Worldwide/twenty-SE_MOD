@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2324 980" width="2324" height="980" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, sans-serif">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2b333d"/></marker>
+<marker id="arrowHot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ff6b61"/></marker>
+</defs>
+<rect width="2324" height="980" fill="#0f1216"/>
+<text x="28" y="28" fill="#e8edf4" font-size="17" font-weight="600">Twenty draft editing</text>
+<text x="28" y="48" fill="#8b98a8" font-size="12">17 capabilities · 2 gates · from capability-ledger.md</text>
+<text x="28" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">EXTERNAL GATES</text>
+<line x1="28" y1="82" x2="296" y2="82" stroke="#2b333d" stroke-width="1"/>
+<text x="428" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">SLICE 1 · WALKING SKELETON</text>
+<line x1="428" y1="82" x2="696" y2="82" stroke="#2b333d" stroke-width="1"/>
+<text x="828" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">SLICE 1 · WALKING SKELETON (CONT.)</text>
+<line x1="828" y1="82" x2="1096" y2="82" stroke="#2b333d" stroke-width="1"/>
+<text x="1228" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">SLICE 2</text>
+<line x1="1228" y1="82" x2="1496" y2="82" stroke="#2b333d" stroke-width="1"/>
+<text x="1628" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">LATER</text>
+<line x1="1628" y1="82" x2="1896" y2="82" stroke="#2b333d" stroke-width="1"/>
+<text x="2028" y="74" fill="#5b6675" font-size="11" font-weight="600" letter-spacing="0.08em">OUT</text>
+<line x1="2028" y1="82" x2="2296" y2="82" stroke="#2b333d" stroke-width="1"/>
+<path d="M 296 156 C 362 156, 362 156, 428 156" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 156 C 830 156, 294 238, 428 238" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 238 C 830 238, 294 320, 428 320" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 238 C 830 238, 294 402, 428 402" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 156 C 830 156, 294 484, 428 484" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 484 C 830 484, 294 566, 428 566" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 320 C 830 320, 294 648, 428 648" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 402 C 830 402, 294 648, 428 648" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 484 C 830 484, 294 648, 428 648" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 648 C 962 648, 962 156, 1228 156" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 296 156 C 362 156, 362 730, 428 730" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 296 238 C 362 238, 362 812, 428 812" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 730 C 1162 730, 1162 156, 1628 156" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 648 C 1162 648, 1162 238, 1628 238" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 648 C 1362 648, 1362 156, 2028 156" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 296 156 C 1162 156, 1162 238, 2028 238" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 238 C 830 238, 294 894, 428 894" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 696 648 C 762 648, 762 156, 828 156" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<path d="M 296 156 C 1162 156, 1162 320, 2028 320" fill="none" stroke="#2b333d" stroke-width="1.2" marker-end="url(#arrow)" opacity="0.75"/>
+<g class="node" data-id="D1" data-kind="gate" opacity="1">
+<rect x="28" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#e0a458" stroke-width="1.6"/>
+<text x="42" y="149" fill="#e8edf4" font-size="12.5" font-weight="550">Twenty v2.58.0 exact source and</text>
+<text x="42" y="164" fill="#e8edf4" font-size="12.5" font-weight="400">existing account access controls</text>
+<text x="42" y="177" fill="#e0a458" font-size="10.5">owner Builder · lead available</text>
+<text x="284" y="143" fill="#5b6675" font-size="10" text-anchor="end">D1</text>
+</g>
+<g class="node" data-id="D2" data-kind="gate" opacity="1">
+<rect x="28" y="206" width="268" height="64" rx="9" fill="#161b22" stroke="#e0a458" stroke-width="1.6"/>
+<text x="42" y="231" fill="#e8edf4" font-size="12.5" font-weight="550">Isolated real IMAP service with</text>
+<text x="42" y="246" fill="#e8edf4" font-size="12.5" font-weight="400">no external email delivery</text>
+<text x="42" y="259" fill="#e0a458" font-size="10.5">owner Builder · lead setup required</text>
+<text x="284" y="225" fill="#5b6675" font-size="10" text-anchor="end">D2</text>
+</g>
+<g class="node" data-id="C1" data-kind="in" opacity="1">
+<rect x="428" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="149" fill="#e8edf4" font-size="12.5" font-weight="550">Operator identifies exact</text>
+<text x="442" y="164" fill="#e8edf4" font-size="12.5" font-weight="400">existing draft and revision</text>
+<text x="442" y="177" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="143" fill="#5b6675" font-size="10" text-anchor="end">C1</text>
+</g>
+<g class="node" data-id="C2" data-kind="in" opacity="1">
+<rect x="428" y="206" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="231" fill="#e8edf4" font-size="12.5" font-weight="550">Server enforces workspace and</text>
+<text x="442" y="246" fill="#e8edf4" font-size="12.5" font-weight="400">account access</text>
+<text x="442" y="259" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="225" fill="#5b6675" font-size="10" text-anchor="end">C2</text>
+</g>
+<g class="node" data-id="C3" data-kind="in" opacity="1">
+<rect x="428" y="288" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="320" fill="#e8edf4" font-size="12.5" font-weight="550">User changes subject and body</text>
+<text x="442" y="341" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="307" fill="#5b6675" font-size="10" text-anchor="end">C3</text>
+</g>
+<g class="node" data-id="C4" data-kind="in" opacity="1">
+<rect x="428" y="370" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="395" fill="#e8edf4" font-size="12.5" font-weight="550">User preserves or explicitly</text>
+<text x="442" y="410" fill="#e8edf4" font-size="12.5" font-weight="400">replaces PDF attachments</text>
+<text x="442" y="423" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="389" fill="#5b6675" font-size="10" text-anchor="end">C4</text>
+</g>
+<g class="node" data-id="C5" data-kind="in" opacity="1">
+<rect x="428" y="452" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="477" fill="#e8edf4" font-size="12.5" font-weight="550">Server rejects conflicts and</text>
+<text x="442" y="492" fill="#e8edf4" font-size="12.5" font-weight="400">unsafe retries</text>
+<text x="442" y="505" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="471" fill="#5b6675" font-size="10" text-anchor="end">C5</text>
+</g>
+<g class="node" data-id="C6" data-kind="in" opacity="1">
+<rect x="428" y="534" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="559" fill="#e8edf4" font-size="12.5" font-weight="550">Operator resolves interrupted</text>
+<text x="442" y="574" fill="#e8edf4" font-size="12.5" font-weight="400">update safely</text>
+<text x="442" y="587" fill="#8b98a8" font-size="10.5">Internal tool · owner Builder</text>
+<text x="684" y="553" fill="#5b6675" font-size="10" text-anchor="end">C6</text>
+</g>
+<g class="node" data-id="C7" data-kind="in" opacity="1">
+<rect x="428" y="616" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="648" fill="#e8edf4" font-size="12.5" font-weight="550">User invokes edit via MCP</text>
+<text x="442" y="669" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="635" fill="#5b6675" font-size="10" text-anchor="end">C7</text>
+</g>
+<g class="node" data-id="C8" data-kind="in" opacity="1">
+<rect x="1228" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="1242" y="156" fill="#e8edf4" font-size="12.5" font-weight="550">User edits in Twenty UI</text>
+<text x="1242" y="177" fill="#8b98a8" font-size="10.5">Web app · owner Builder</text>
+<text x="1484" y="143" fill="#5b6675" font-size="10" text-anchor="end">C8</text>
+</g>
+<g class="node" data-id="C9" data-kind="in" opacity="1">
+<rect x="428" y="698" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="723" fill="#e8edf4" font-size="12.5" font-weight="550">Operator disables and rolls back</text>
+<text x="442" y="738" fill="#e8edf4" font-size="12.5" font-weight="400">customization</text>
+<text x="442" y="751" fill="#8b98a8" font-size="10.5">Internal tool · owner Builder</text>
+<text x="684" y="717" fill="#5b6675" font-size="10" text-anchor="end">C9</text>
+</g>
+<g class="node" data-id="C10" data-kind="in" opacity="1">
+<rect x="428" y="780" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="805" fill="#e8edf4" font-size="12.5" font-weight="550">Operator tests using isolated</text>
+<text x="442" y="820" fill="#e8edf4" font-size="12.5" font-weight="400">provider</text>
+<text x="442" y="833" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="799" fill="#5b6675" font-size="10" text-anchor="end">C10</text>
+</g>
+<g class="node" data-id="C11" data-kind="later" opacity="1">
+<rect x="1628" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#9b8cf0" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="1642" y="149" fill="#e8edf4" font-size="12.5" font-weight="550">Operator upgrades pinned version</text>
+<text x="1642" y="164" fill="#e8edf4" font-size="12.5" font-weight="400">safely</text>
+<text x="1642" y="177" fill="#8b98a8" font-size="10.5">Internal tool · owner Operator</text>
+<text x="1884" y="143" fill="#5b6675" font-size="10" text-anchor="end">C11</text>
+</g>
+<g class="node" data-id="C12" data-kind="later" opacity="1">
+<rect x="1628" y="206" width="268" height="64" rx="9" fill="#161b22" stroke="#9b8cf0" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="1642" y="231" fill="#e8edf4" font-size="12.5" font-weight="550">User edits drafts in Gmail or</text>
+<text x="1642" y="246" fill="#e8edf4" font-size="12.5" font-weight="400">Microsoft</text>
+<text x="1642" y="259" fill="#8b98a8" font-size="10.5">API · owner Operator</text>
+<text x="1884" y="225" fill="#5b6675" font-size="10" text-anchor="end">C12</text>
+</g>
+<g class="node" data-id="C13" data-kind="out" opacity="0.62">
+<rect x="2028" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#5b6675" stroke-width="1.6"/>
+<text x="2042" y="156" fill="#e8edf4" font-size="12.5" font-weight="550">User sends emails</text>
+<text x="2042" y="177" fill="#8b98a8" font-size="10.5">API · owner User</text>
+<text x="2284" y="143" fill="#5b6675" font-size="10" text-anchor="end">C13</text>
+</g>
+<g class="node" data-id="C14" data-kind="out" opacity="0.62">
+<rect x="2028" y="206" width="268" height="64" rx="9" fill="#161b22" stroke="#5b6675" stroke-width="1.6"/>
+<text x="2042" y="231" fill="#e8edf4" font-size="12.5" font-weight="550">User manages account, billing,</text>
+<text x="2042" y="246" fill="#e8edf4" font-size="12.5" font-weight="400">deletion or export</text>
+<text x="2042" y="259" fill="#8b98a8" font-size="10.5">Universal · owner Twenty</text>
+<text x="2284" y="225" fill="#5b6675" font-size="10" text-anchor="end">C14</text>
+</g>
+<g class="node" data-id="C15" data-kind="in" opacity="1">
+<rect x="428" y="862" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="442" y="887" fill="#e8edf4" font-size="12.5" font-weight="550">Operator handles cost, rate</text>
+<text x="442" y="902" fill="#e8edf4" font-size="12.5" font-weight="400">limits, abuse and provider</text>
+<text x="442" y="915" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="684" y="881" fill="#5b6675" font-size="10" text-anchor="end">C15</text>
+</g>
+<g class="node" data-id="C16" data-kind="in" opacity="1">
+<rect x="828" y="124" width="268" height="64" rx="9" fill="#161b22" stroke="#4fb3a5" stroke-width="1.6"/>
+<text x="842" y="149" fill="#e8edf4" font-size="12.5" font-weight="550">Operator documents version,</text>
+<text x="842" y="164" fill="#e8edf4" font-size="12.5" font-weight="400">authentication and example</text>
+<text x="842" y="177" fill="#8b98a8" font-size="10.5">API · owner Builder</text>
+<text x="1084" y="143" fill="#5b6675" font-size="10" text-anchor="end">C16</text>
+</g>
+<g class="node" data-id="C17" data-kind="out" opacity="0.62">
+<rect x="2028" y="288" width="268" height="64" rx="9" fill="#161b22" stroke="#5b6675" stroke-width="1.6"/>
+<text x="2042" y="313" fill="#e8edf4" font-size="12.5" font-weight="550">Operator considers legal terms</text>
+<text x="2042" y="328" fill="#e8edf4" font-size="12.5" font-weight="400">and data residency</text>
+<text x="2042" y="341" fill="#8b98a8" font-size="10.5">Universal · owner User</text>
+<text x="2284" y="307" fill="#5b6675" font-size="10" text-anchor="end">C17</text>
+</g>
+</svg>
