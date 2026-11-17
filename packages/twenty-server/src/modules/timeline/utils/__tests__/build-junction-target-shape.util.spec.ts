@@ -1,3 +1,4 @@
+import { STANDARD_OBJECTS } from 'twenty-shared/metadata';
 import { FieldMetadataType, RelationType } from 'twenty-shared/types';
 
 import { addAllFlatEntitiesToFlatEntityMaps } from 'src/engine/core-modules/application/application-manifest/utils/__tests__/add-all-flat-entities-to-flat-entity-maps.test-util';
@@ -123,11 +124,30 @@ const NON_MORPH_JUNCTION_TARGET_FIELD = getFlatFieldMetadataMock({
   },
 });
 
+const TIMELINE_OBJECT = getFlatObjectMetadataMock({
+  id: 'timeline-object',
+  universalIdentifier: STANDARD_OBJECTS.timelineActivity.universalIdentifier,
+  nameSingular: 'timelineActivity',
+  fieldIds: ['timeline-person-field', 'timeline-company-field'],
+});
+
+const TIMELINE_TARGET_FIELDS = [PERSON_OBJECT, COMPANY_OBJECT].map((object) =>
+  getFlatFieldMetadataMock({
+    id: `timeline-${object.nameSingular}-field`,
+    universalIdentifier: `timeline-${object.nameSingular}-field-uid`,
+    objectMetadataId: TIMELINE_OBJECT.id,
+    type: FieldMetadataType.MORPH_RELATION,
+    morphId: STANDARD_OBJECTS.timelineActivity.morphIds.targetMorphId.morphId,
+    relationTargetObjectMetadataId: object.id,
+  }),
+);
+
 const flatObjectMetadataMaps = buildFlatEntityMaps([
   NOTE_OBJECT,
   NOTE_TARGET_OBJECT,
   PERSON_OBJECT,
   COMPANY_OBJECT,
+  TIMELINE_OBJECT,
 ]);
 
 const flatFieldMetadataMaps = buildFlatEntityMaps([
@@ -135,6 +155,7 @@ const flatFieldMetadataMaps = buildFlatEntityMaps([
   NOTE_TARGET_NOTE_FIELD,
   NOTE_TARGET_PERSON_FIELD,
   NOTE_TARGET_COMPANY_FIELD,
+  ...TIMELINE_TARGET_FIELDS,
 ]);
 
 const buildShape = (relationFlatFieldMetadata: OrmFlatFieldMetadata) =>
@@ -191,6 +212,7 @@ describe('buildJunctionTargetShape', () => {
         NOTE_TARGETS_FIELD,
         NOTE_TARGET_NOTE_FIELD,
         NON_MORPH_JUNCTION_TARGET_FIELD,
+        ...TIMELINE_TARGET_FIELDS,
       ]),
     });
 
@@ -202,6 +224,33 @@ describe('buildJunctionTargetShape', () => {
       targetJoinColumns: [
         {
           joinColumnName: 'personId',
+          targetObjectNameSingular: 'person',
+        },
+      ],
+    });
+  });
+
+  it('excludes junction targets without a timeline relation', () => {
+    const shape = buildJunctionTargetShape({
+      relationFlatFieldMetadata: NOTE_TARGETS_FIELD,
+      flatObjectMetadataMaps: buildFlatEntityMaps([
+        NOTE_OBJECT,
+        NOTE_TARGET_OBJECT,
+        PERSON_OBJECT,
+        COMPANY_OBJECT,
+        { ...TIMELINE_OBJECT, fieldIds: ['timeline-person-field'] },
+      ]),
+      flatFieldMetadataMaps,
+    });
+
+    expect(shape).toEqual({
+      kind: 'JUNCTION',
+      junctionObjectMetadataId: NOTE_TARGET_OBJECT.id,
+      junctionObjectNameSingular: 'noteTarget',
+      junctionSourceJoinColumnName: 'noteId',
+      targetJoinColumns: [
+        {
+          joinColumnName: 'targetPersonId',
           targetObjectNameSingular: 'person',
         },
       ],
