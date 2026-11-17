@@ -234,6 +234,15 @@ export const useSaveExistingDraft = ({
         throw new Error(t`The draft could not be saved.`);
       }
       setReady(null);
+      if (
+        updated.result.crmRefresh &&
+        updated.result.crmRefresh !== 'updated'
+      ) {
+        const notice = t`Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate.`;
+        setError(notice);
+        enqueueToast({ status: 'warning', children: notice });
+        return;
+      }
       enqueueToast({ status: 'success', children: t`Draft saved` });
       onSaved();
     } catch (caught) {

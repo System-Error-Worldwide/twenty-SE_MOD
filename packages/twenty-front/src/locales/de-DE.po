@@ -33986,3 +33986,7 @@ msgstr "Entwurf gespeichert"
 #. js-lingui-id: VdUQd2
 msgid "Draft could not be saved"
 msgstr "Der Entwurf konnte nicht gespeichert werden."
+
+#. js-lingui-id: VnT7Qu
+msgid "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."
+msgstr "Der Entwurf wurde im Postfach gespeichert, aber die CRM-Aktualisierung muss wiederhergestellt werden. Erstelle keinen doppelten Entwurf."

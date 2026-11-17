@@ -33983,3 +33983,7 @@ msgstr "Draft saved"
 #. js-lingui-id: VdUQd2
 msgid "Draft could not be saved"
 msgstr "Draft could not be saved"
+
+#. js-lingui-id: VnT7Qu
+msgid "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."
+msgstr "Draft saved in the mailbox, but CRM refresh needs recovery. Do not create a duplicate."

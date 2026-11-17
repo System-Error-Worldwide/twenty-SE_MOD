@@ -266,3 +266,54 @@ test('does not send or save unsupported recipient changes', async () => {
   expect(result.current.error).toMatch(/recipients/);
   expect(global.fetch).toHaveBeenCalledTimes(2);
 });
+
+test.each(['pending', 'not_imported'])(
+  'keeps the editor open and reports mailbox-only success when CRM refresh is %s',
+  async (crmRefresh) => {
+    global.fetch = jest.fn((_, options) => {
+      const payload = JSON.parse(options?.body as string);
+      if (payload.params.name === 'list_email_drafts')
+        return reply({
+          success: true,
+          result: {
+            drafts: [{ target, headerMessageId: prefill.headerMessageId }],
+            truncated: false,
+          },
+        }) as Promise<Response>;
+      if (payload.params.name === 'inspect_email_draft')
+        return reply({
+          success: true,
+          result: {
+            subject: 'Funding',
+            text: 'Before',
+            revision: 'a'.repeat(64),
+            recipients,
+          },
+        }) as Promise<Response>;
+      return reply({
+        success: true,
+        result: { status: 'updated', crmRefresh },
+      }) as Promise<Response>;
+    }) as jest.Mock;
+    const onSaved = jest.fn();
+    const { result } = renderHook(() =>
+      useSaveExistingDraft({
+        draftPrefill: prefill,
+        composer,
+        initialAccountId: 'account',
+        isOpen: true,
+        onSaved,
+      }),
+    );
+    await waitFor(() => expect(result.current.canSave).toBe(true));
+    await act(async () => {
+      await result.current.handleSave();
+    });
+    expect(result.current.error).toMatch(/mailbox.*CRM refresh needs recovery/);
+    expect(result.current.canSave).toBe(false);
+    expect(onSaved).not.toHaveBeenCalled();
+    expect(mockToast).toHaveBeenCalledWith(
+      expect.objectContaining({ status: 'warning' }),
+    );
+  },
+);
