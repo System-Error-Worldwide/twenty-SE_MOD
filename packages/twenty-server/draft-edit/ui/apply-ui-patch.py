@@ -26,11 +26,11 @@ replace(util, '    to: joinRecipientsByRole(MessageParticipantRole.TO),\n', '   
 hook = base / 'activities/emails/hooks/useSaveExistingDraft.ts'
 if hook.exists():
     raise SystemExit('Save draft hook already exists')
-shutil.copyfile(pathlib.Path(__file__).with_name('useSaveExistingDraft.ts'), hook)
+shutil.copyfile(pathlib.Path(__file__).with_name('useSaveExistingDraft.ts.template'), hook)
 hook_test = base / 'activities/emails/hooks/__tests__/useSaveExistingDraft.test.tsx'
 if hook_test.exists():
     raise SystemExit('Save draft test already exists')
-shutil.copyfile(pathlib.Path(__file__).with_name('useSaveExistingDraft.test.tsx'), hook_test)
+shutil.copyfile(pathlib.Path(__file__).with_name('useSaveExistingDraft.test.tsx.template'), hook_test)
 component = base / 'page-layout/widgets/email-thread/components/EmailThreadComposer.tsx'
 replace(component, "import { useEmailComposerState } from '@/activities/emails/hooks/useEmailComposerState';", "import { useEmailComposerState } from '@/activities/emails/hooks/useEmailComposerState';\nimport { useSaveExistingDraft } from '@/activities/emails/hooks/useSaveExistingDraft';\nimport { useApolloCoreClient } from '@/object-metadata/hooks/useApolloCoreClient';")
 replace(component, '  IconArrowBackUp,\n', '  IconArrowBackUp,\n  IconDeviceFloppy,\n')
