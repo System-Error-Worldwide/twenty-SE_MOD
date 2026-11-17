@@ -87,11 +87,20 @@ export const EmailThreadComposer = ({
 
   const handleDraftSaved = useCallback(() => {
     setIsComposerOpen(false);
-    void apolloCoreClient.refetchQueries({ include: ['FindManyMessages', 'FindManyMessageParticipants', 'FindManyMessageChannelMessageAssociations'] });
+    void apolloCoreClient.refetchQueries({
+      include: [
+        'FindManyMessages',
+        'FindManyMessageParticipants',
+        'FindManyMessageChannelMessageAssociations',
+      ],
+    });
   }, [apolloCoreClient, setIsComposerOpen]);
   const draftSave = useSaveExistingDraft({
-    draftPrefill, composer: composerState, initialAccountId: replyContext.connectedAccountId,
-    isOpen: isComposerOpen && Boolean(draftPrefill), onSaved: handleDraftSaved,
+    draftPrefill,
+    composer: composerState,
+    initialAccountId: replyContext.connectedAccountId,
+    isOpen: isComposerOpen && Boolean(draftPrefill),
+    onSaved: handleDraftSaved,
   });
 
   const { handleSend, canSend } = composerState;
@@ -137,14 +146,21 @@ export const EmailThreadComposer = ({
     };
 
     const saveDraftCommandMenuItem: WidgetCommandMenuItem = {
-      id: 'save-draft', label: 'Save draft', Icon: IconDeviceFloppy,
-      isPinned: true, onClick: draftSave.handleSave,
+      id: 'save-draft',
+      label: t`Save draft`,
+      Icon: IconDeviceFloppy,
+      isPinned: true,
+      onClick: draftSave.handleSave,
       disabled: !draftSave.canSave || isUploadingAttachments,
       replacedEngineComponentKey: EngineComponentKey.REPLY_TO_EMAIL_THREAD,
     };
 
     if (!isInSidePanel) {
-      return [cancelReplyCommandMenuItem, ...(draftPrefill ? [saveDraftCommandMenuItem] : []), sendCommandMenuItem];
+      return [
+        cancelReplyCommandMenuItem,
+        ...(draftPrefill ? [saveDraftCommandMenuItem] : []),
+        sendCommandMenuItem,
+      ];
     }
 
     return [
@@ -199,8 +215,12 @@ export const EmailThreadComposer = ({
       />
       {isComposerOpen && (
         <StyledComposerContainer>
-          {draftPrefill && draftSave.error && <div role="alert">{draftSave.error}</div>}
-          {draftPrefill && draftSave.formattingMayChange && <div role="status">Saving edited text may change the original formatting.</div>}
+          {draftPrefill && draftSave.error && (
+            <div role="alert">{draftSave.error}</div>
+          )}
+          {draftPrefill && draftSave.formattingMayChange && (
+            <div role="status">{t`Saving edited text may change the original formatting.`}</div>
+          )}
           <EmailComposerFields
             composerState={composerState}
             appSender={appReplyTarget}

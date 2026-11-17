@@ -6,11 +6,14 @@ const PostalMime = require('postal-mime');
 const MailComposer = require('nodemailer/lib/mail-composer');
 const firstPdf = Buffer.from('%PDF-1.4\nfirst fixture\n%%EOF');
 const secondPdf = Buffer.from('%PDF-1.4\nsecond fixture\n%%EOF');
-const original = await new MailComposer({
-  from: { name: 'Moses', address: 'test@example.invalid' }, to: 'prospect@example.invalid', cc: 'cc@example.invalid',
+const initial = new MailComposer({
+  from: { name: 'Moses', address: 'test@example.invalid' }, to: 'prospect@example.invalid', cc: 'cc@example.invalid', bcc: 'hidden@example.invalid',
   subject: 'Funding', text: 'Original text', html: '<p>Original text</p>', messageId: '<fixture@example.invalid>',
   attachments: [{ filename: 'DE.pdf', content: firstPdf, contentType: 'application/pdf' }],
-}).compile().build();
+}).compile();
+initial.keepBcc = true;
+const original = await initial.build();
+assert.equal((await PostalMime.parse(original)).bcc[0].address, 'hidden@example.invalid');
 const build = (changes, source = original) => editDraftMime({ source, changes, PostalMime, MailComposer });
 const edited = await PostalMime.parse(await build({ body: { text: 'Personalised update', html: '<p>Personalised update</p>' } }));
 assert.equal(edited.text.trim(), 'Personalised update');
@@ -18,6 +21,9 @@ assert.equal(edited.html.trim(), '<p>Personalised update</p>');
 assert.equal(edited.from.address, 'test@example.invalid');
 assert.equal(edited.to[0].address, 'prospect@example.invalid');
 assert.equal(edited.cc[0].address, 'cc@example.invalid');
+assert.equal(edited.bcc[0].address, 'hidden@example.invalid');
+const subjectOnly = await PostalMime.parse(await build({ subject: 'Updated subject' }));
+assert.equal(subjectOnly.bcc[0].address, 'hidden@example.invalid');
 assert.equal(edited.messageId, '<fixture@example.invalid>');
 assert.equal(edited.attachments[0].filename, 'DE.pdf');
 assert.deepEqual(Buffer.from(edited.attachments[0].content), firstPdf);

@@ -65,8 +65,14 @@ export const buildTimelineActivityTargetJoinColumns = ({
       flatEntityIds: timeline.fieldIds,
       flatEntityMaps: flatFieldMetadataMaps,
     })
-      .filter(({ morphId }) => morphId === STANDARD_OBJECTS.timelineActivity.morphIds.targetMorphId.morphId)
-      .map(({ relationTargetObjectMetadataId }) => relationTargetObjectMetadataId)
+      .filter(
+        ({ morphId }) =>
+          morphId ===
+          STANDARD_OBJECTS.timelineActivity.morphIds.targetMorphId.morphId,
+      )
+      .map(
+        ({ relationTargetObjectMetadataId }) => relationTargetObjectMetadataId,
+      )
       .filter(isDefined),
   );
 
@@ -76,7 +82,10 @@ export const buildTimelineActivityTargetJoinColumns = ({
         const targetObjectMetadataId =
           flatFieldMetadata.relationTargetObjectMetadataId;
 
-        if (!isDefined(targetObjectMetadataId) || !targetIds.has(targetObjectMetadataId)) {
+        if (
+          !isDefined(targetObjectMetadataId) ||
+          !targetIds.has(targetObjectMetadataId)
+        ) {
           return undefined;
         }
 

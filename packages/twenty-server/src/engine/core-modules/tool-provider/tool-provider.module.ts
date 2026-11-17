@@ -108,7 +108,9 @@ import { ToolRegistryService } from './services/tool-registry.service';
     {
       provide: 'OUTREACH_DRAFT_EDIT_TOOLS',
       useFactory: (provider: ActionToolProvider) =>
-        require('../../../../draft-edit/src/twenty-install.cjs').register(provider),
+        require('../../../../draft-edit/src/twenty-install.cjs').register(
+          provider,
+        ),
       inject: [ActionToolProvider],
     },
   ],

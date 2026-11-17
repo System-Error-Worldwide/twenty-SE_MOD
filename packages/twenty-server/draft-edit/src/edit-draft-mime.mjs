@@ -54,5 +54,7 @@ export async function editDraftMime({ source, changes, PostalMime, MailComposer 
     attachments: checkAttachments(attachments), headers,
   };
   if (Number.isNaN(options.date.getTime())) throw new Error('Invalid date');
-  return new MailComposer(options).compile().build();
+  const message = new MailComposer(options).compile();
+  message.keepBcc = true;
+  return message.build();
 }
