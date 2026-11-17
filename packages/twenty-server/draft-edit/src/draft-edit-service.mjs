@@ -101,7 +101,9 @@ export class DraftEditService {
         try {
           const saved = await mailbox.readDraft(result.target);
           if (!saved?.isDraft || saved.uidValidity !== result.target.uidValidity) throw new Error('Draft unavailable after save');
-          result.crmRefresh = await this.refreshDraft({ context, accountId: target.accountId, parsed: await this.PostalMime.parse(saved.source) });
+          const parsed = await this.PostalMime.parse(saved.source);
+          result.crmRefresh = await this.refreshDraft({ context, accountId: target.accountId, parsed, previousTarget: target, newTarget: result.target, bodyStructure: saved.bodyStructure });
+          result.crmAttachments = result.crmRefresh === 'updated' ? 'updated' : 'unverified';
         } catch { result.crmRefresh = 'pending'; }
       }
       return result;

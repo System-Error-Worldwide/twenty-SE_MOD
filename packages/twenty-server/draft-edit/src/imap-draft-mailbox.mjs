@@ -19,9 +19,9 @@ export class ImapDraftMailbox {
 
   async readDraft(target) {
     if (!this.lock || target.folder !== this.folder || String(this.client.mailbox.uidValidity) !== target.uidValidity) return null;
-    const entry = await this.client.fetchOne(String(target.uid), { uid: true, flags: true, source: true, modseq: true }, { uid: true });
+    const entry = await this.client.fetchOne(String(target.uid), { uid: true, flags: true, source: true, modseq: true, bodyStructure: true }, { uid: true });
     if (!entry || !entry.modseq) return null;
-    return { uidValidity: String(this.client.mailbox.uidValidity), source: entry.source, isDraft: entry.flags.has('\\Draft') && !entry.flags.has('\\Deleted'), flags: [...entry.flags].filter((flag) => !['\\recent', '\\deleted'].includes(flag.toLowerCase())), modseq: String(entry.modseq) };
+    return { uidValidity: String(this.client.mailbox.uidValidity), source: entry.source, bodyStructure: entry.bodyStructure, isDraft: entry.flags.has('\\Draft') && !entry.flags.has('\\Deleted'), flags: [...entry.flags].filter((flag) => !['\\recent', '\\deleted'].includes(flag.toLowerCase())), modseq: String(entry.modseq) };
   }
 
   async appendDraft(folder, source, flags) {

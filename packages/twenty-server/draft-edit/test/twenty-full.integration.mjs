@@ -39,7 +39,8 @@ try {
   const marker = `Fixture ${randomUUID()}`;
   const raw = await new MailComposer({ from: 'test@example.invalid', to: 'lead@example.invalid', subject: marker, text: 'Before', attachments: [{ filename: 'old.pdf', content: fixturePdf('Original fixture'), contentType: 'application/pdf' }] }).compile().build();
   const rawMessageId = (await PostalMime.parse(raw)).messageId;
-  await seed.append(folder, raw, ['\\Draft']);
+  const initialAppend = await seed.append(folder, raw, ['\\Draft']);
+  assert.ok(initialAppend.uid);
   const save = await metadata('mutation($handle:String!,$connectionParameters:EmailAccountConnectionParameters!){saveImapSmtpCaldavAccount(handle:$handle,connectionParameters:$connectionParameters){success connectedAccountId}}', { handle: 'test@example.invalid', connectionParameters: { IMAP: { host: '127.0.0.1', port: 31143, username: 'test', password: 'test-only', connectionSecurity: 'STARTTLS' } } }, token);
   const accountId = save.saveImapSmtpCaldavAccount.connectedAccountId;
   assert.ok(accountId);
@@ -50,7 +51,28 @@ try {
   assert.match(recordSchema, /^[A-Za-z_][A-Za-z0-9_]{0,62}$/);
   const recordId = randomUUID();
   await recordPool.query(`INSERT INTO "${recordSchema}".message (id,"headerMessageId",subject,text,"isDraft") VALUES ($1,$2,$3,$4,true)`, [recordId, rawMessageId, marker, 'Before']);
-  await recordPool.query(`INSERT INTO "${recordSchema}"."messageChannelMessageAssociation" ("messageId","messageChannelId","messageExternalId") VALUES ($1,$2,$3)`, [recordId, channelRows.rows[0].id, 'fixture-'+recordId]);
+  await recordPool.query(`INSERT INTO "${recordSchema}"."messageChannelMessageAssociation" ("messageId","messageChannelId","messageExternalId") VALUES ($1,$2,$3)`, [recordId, channelRows.rows[0].id, `${folder}:${initialAppend.uid}`]);
+  async function verifyCrmAttachments(expected) {
+    const response = await fetch(`${base}/graphql`, { method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` }, body: JSON.stringify({ query: `query { attachments(filter: { targetMessageId: { eq: \"${recordId}\" } }) { edges { node { id targetMessageId name file { fileId label url } } } } }` }) });
+    const body = await response.json();
+    if (body.errors?.length) throw new Error(body.errors.map((entry) => entry.message).join('; '));
+    const rows = body.data.attachments.edges.map(({ node }) => node).filter((node) => node.targetMessageId === recordId);
+    assert.equal(rows.length, expected.length);
+    const signedUrls = [];
+    for (const [name, bytes] of expected) {
+      const row = rows.find((item) => item.name === name);
+      assert.ok(row && row.file.length === 1 && row.file[0].url, `Missing signed attachment ${name}`);
+      const fileMetadata = await recordPool.query('SELECT settings FROM core.file WHERE id=$1', [row.file[0].fileId]);
+      assert.equal(fileMetadata.rows[0].settings.isTemporaryFile, false);
+      const signed = new URL(row.file[0].url);
+      const path = `${base}${signed.pathname}${signed.search}`;
+      signedUrls.push(path);
+      const download = await fetch(path);
+      assert.equal(download.status, 200);
+      assert.deepEqual(Buffer.from(await download.arrayBuffer()), bytes);
+    }
+    return signedUrls;
+  }
   let requestId = 2;
   async function call(name, args) {
     const r = await fetch(`${base}/mcp`, { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json', authorization: `Bearer ${token}` }, body: JSON.stringify({ jsonrpc: '2.0', id: requestId++, method: 'tools/call', params: { name, arguments: args } }) });
@@ -73,11 +95,17 @@ try {
   const changed = await call('update_email_draft', { target: chosen.target, expectedRevision: inspected.revision, operationId: `real-e2e-${randomUUID()}`, changes: { body: { text: 'Updated via Twenty MCP' }, files: [{ id: upload.fileId, name: 'replacement.pdf' }] } });
   assert.equal(changed.status, 'updated');
   assert.equal(changed.crmRefresh, 'updated');
+  assert.equal(changed.crmAttachments, 'updated');
+  assert.equal((await recordPool.query(`SELECT \"messageExternalId\" FROM \"${recordSchema}\".\"messageChannelMessageAssociation\" WHERE \"messageId\"=$1`, [recordId])).rows[0].messageExternalId, `${folder}:${changed.target.uid}`);
   assert.equal((await recordPool.query(`SELECT text FROM "${recordSchema}".message WHERE id=$1`, [recordId])).rows[0].text.trim(), 'Updated via Twenty MCP');
+  const [oldSignedUrl] = await verifyCrmAttachments([['replacement.pdf', pdf]]);
   const latest = await call('inspect_email_draft', { target: changed.target });
   const document = JSON.stringify({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Updated again without touching attachments' }] }] });
   const preserved = await call('update_email_draft', { target: changed.target, expectedRevision: latest.revision, operationId: `preserve-e2e-${randomUUID()}`, changes: { body: { document } } });
   assert.equal(preserved.status, 'updated');
+  assert.equal(preserved.crmAttachments, 'updated');
+  assert.equal((await fetch(oldSignedUrl)).status, 404);
+  await verifyCrmAttachments([['replacement.pdf', pdf]]);
   const secondPdf = fixturePdf('Added fixture');
   const secondUpload = await call('create_file_upload', { filename: 'added.pdf', size: secondPdf.length });
   const secondPut = await fetch(secondUpload.uploadUrl, { method: 'PUT', headers: { 'content-type': secondUpload.contentType }, body: secondPdf });
@@ -87,8 +115,10 @@ try {
   const appended = await call('update_email_draft', { target: preserved.target, expectedRevision: current.revision, operationId: `append-e2e-${randomUUID()}`, changes: { addFiles: [{ id: secondUpload.fileId, name: 'added.pdf' }] } });
   assert.equal(appended.status, 'updated');
   assert.equal(appended.crmRefresh, 'updated');
+  assert.equal(appended.crmAttachments, 'updated');
+  assert.equal((await recordPool.query(`SELECT \"messageExternalId\" FROM \"${recordSchema}\".\"messageChannelMessageAssociation\" WHERE \"messageId\"=$1`, [recordId])).rows[0].messageExternalId, `${folder}:${appended.target.uid}`);
   assert.equal((await recordPool.query(`SELECT text FROM "${recordSchema}".message WHERE id=$1`, [recordId])).rows[0].text.trim(), 'Updated again without touching attachments');
-  await recordPool.end();
+  const supersededUrls = await verifyCrmAttachments([['replacement.pdf', pdf], ['added.pdf', secondPdf]]);
   const conflictResponse = await fetch(`${base}/mcp`, { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json', authorization: `Bearer ${token}` }, body: JSON.stringify({ jsonrpc: '2.0', id: requestId++, method: 'tools/call', params: { name: 'update_email_draft', arguments: { target: appended.target, expectedRevision: inspected.revision, operationId: `stale-e2e-${randomUUID()}`, changes: { body: { text: 'Must not apply' } } } } }) });
   const conflictEnvelope = await conflictResponse.json();
   const conflict = JSON.parse(conflictEnvelope.result.content[0].text);
@@ -106,4 +136,15 @@ try {
     assert.deepEqual(await seed.search({ subject: marker }, { uid: true }), [appended.target.uid]);
   } finally { lock.release(); }
   console.log('PASS: authenticated Twenty MCP updates one IMAP draft with uploaded PDF');
+  const finalInspection = await call('inspect_email_draft', { target: appended.target });
+  const replaced = await call('update_email_draft', { target: appended.target, expectedRevision: finalInspection.revision, operationId: `replace-again-e2e-${randomUUID()}`, changes: { files: [{ id: upload.fileId, name: 'replacement.pdf' }] } });
+  assert.equal(replaced.crmAttachments, 'updated');
+  for (const url of supersededUrls) assert.equal((await fetch(url)).status, 404);
+  const [removedUrl] = await verifyCrmAttachments([['replacement.pdf', pdf]]);
+  const lastInspection = await call('inspect_email_draft', { target: replaced.target });
+  const removed = await call('update_email_draft', { target: replaced.target, expectedRevision: lastInspection.revision, operationId: `remove-e2e-${randomUUID()}`, changes: { files: [] } });
+  assert.equal(removed.crmAttachments, 'updated');
+  assert.equal((await fetch(removedUrl)).status, 404);
+  await verifyCrmAttachments([]);
+  await recordPool.end();
 } finally { await seed.logout(); }
