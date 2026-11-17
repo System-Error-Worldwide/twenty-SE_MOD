@@ -2,6 +2,8 @@ import { useCallback, useMemo } from 'react';
 
 import { EmailComposerFields } from '@/activities/emails/components/EmailComposerFields';
 import { useEmailComposerState } from '@/activities/emails/hooks/useEmailComposerState';
+import { useSaveExistingDraft } from '@/activities/emails/hooks/useSaveExistingDraft';
+import { useApolloCoreClient } from '@/object-metadata/hooks/useApolloCoreClient';
 import { useAttachEmailFiles } from '@/activities/emails/hooks/useAttachEmailFiles';
 import { type ReplyContextReady } from '@/activities/emails/hooks/useReplyContext';
 import { type AppReplyTarget } from '@/activities/emails/types/AppReplyTarget';
@@ -15,6 +17,7 @@ import { StandardObjectNameSingular } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 import {
   IconArrowBackUp,
+  IconDeviceFloppy,
   IconPaperclip,
   IconSend,
   IconX,
@@ -51,6 +54,7 @@ export const EmailThreadComposer = ({
   appReplyTarget,
 }: EmailThreadComposerProps) => {
   const { t } = useLingui();
+  const apolloCoreClient = useApolloCoreClient();
   const { openRecordInSidePanel } = useOpenRecordInSidePanel();
 
   const handleReplySent = useCallback(
@@ -80,6 +84,15 @@ export const EmailThreadComposer = ({
   // app sends carry no files yet
   const canAttachFiles =
     appReplyTarget?.connectedAccountId !== composerState.connectedAccountId;
+
+  const handleDraftSaved = useCallback(() => {
+    setIsComposerOpen(false);
+    void apolloCoreClient.refetchQueries({ include: ['FindManyMessages', 'FindManyMessageParticipants', 'FindManyMessageChannelMessageAssociations'] });
+  }, [apolloCoreClient, setIsComposerOpen]);
+  const draftSave = useSaveExistingDraft({
+    draftPrefill, composer: composerState, initialAccountId: replyContext.connectedAccountId,
+    isOpen: isComposerOpen && Boolean(draftPrefill), onSaved: handleDraftSaved,
+  });
 
   const { handleSend, canSend } = composerState;
 
@@ -123,8 +136,15 @@ export const EmailThreadComposer = ({
       replacedEngineComponentKey: EngineComponentKey.REPLY_TO_EMAIL_THREAD,
     };
 
+    const saveDraftCommandMenuItem: WidgetCommandMenuItem = {
+      id: 'save-draft', label: 'Save draft', Icon: IconDeviceFloppy,
+      isPinned: true, onClick: draftSave.handleSave,
+      disabled: !draftSave.canSave || isUploadingAttachments,
+      replacedEngineComponentKey: EngineComponentKey.REPLY_TO_EMAIL_THREAD,
+    };
+
     if (!isInSidePanel) {
-      return [cancelReplyCommandMenuItem, sendCommandMenuItem];
+      return [cancelReplyCommandMenuItem, ...(draftPrefill ? [saveDraftCommandMenuItem] : []), sendCommandMenuItem];
     }
 
     return [
@@ -140,6 +160,7 @@ export const EmailThreadComposer = ({
             },
           ]
         : []),
+      ...(draftPrefill ? [saveDraftCommandMenuItem] : []),
       sendCommandMenuItem,
     ];
   }, [
@@ -150,6 +171,10 @@ export const EmailThreadComposer = ({
     canSendReply,
     setIsComposerOpen,
     openAttachmentPicker,
+    draftPrefill,
+    draftSave.handleSave,
+    draftSave.canSave,
+    isUploadingAttachments,
     t,
   ]);
 
@@ -174,6 +199,8 @@ export const EmailThreadComposer = ({
       />
       {isComposerOpen && (
         <StyledComposerContainer>
+          {draftPrefill && draftSave.error && <div role="alert">{draftSave.error}</div>}
+          {draftPrefill && draftSave.formattingMayChange && <div role="status">Saving edited text may change the original formatting.</div>}
           <EmailComposerFields
             composerState={composerState}
             appSender={appReplyTarget}

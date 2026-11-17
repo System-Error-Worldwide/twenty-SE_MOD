@@ -1,0 +1,13 @@
+# IMAP draft editing
+
+This extension adds `list_email_drafts`, `inspect_email_draft` and `update_email_draft` to Twenty's authenticated action provider and MCP. The native email composer adds **Save draft** for imported drafts. It edits subject and body, keeps existing attachments, and can add files. MCP also replaces or removes attachments using `files`; omit that property to preserve them.
+
+The maintained release branch is `se/v2.58`, based on upstream `bd8ab939f0e238b5faeefcbeb897ecd6862b1a59`. The standard Dockerfile includes this extension. Apply `sql/draft-edit-journal.sql` before starting it; registration remains unavailable without the journal. The source includes the AgentChat PDF folder and timeline import compatibility fixes.
+
+Every edit requires the caller's connected account, the exact drafts folder, UIDVALIDITY, UID and current revision. It uses a durable operation journal, conditional deletion and UID EXPUNGE. Unsupported servers are refused. An uncertain operation retains recoverable copies and must not be blindly retried. These tools contain no sending operation.
+
+Native sender and recipient changes are refused. Existing attachment removal/replacement is available through MCP; the native composer adds attachments. Existing CRM draft text is refreshed after a successful mailbox edit. If `crmRefresh` is `pending`, the mailbox save succeeded but CRM refresh needs investigation; do not create a replacement draft.
+
+Run unit tests with `node --test packages/twenty-server/draft-edit/test/*.test.mjs`. The release acceptance entry points are `test/release.integration.sh RELEASE_DIR` and `test/twenty-full.integration.mjs`. Both require the declared isolated Netcup fixtures; the latter uses only a synthetic mailbox on a network-disconnected container. Never point fixture tests at a real account.
+
+For the existing pinned v2.58 container, `scripts/prepare-release.py` packages source and a built frontend with SHA-256 manifests. `stage-release.sh --install` requires a stopped pinned container and saves verified originals. `--rollback` restores them while retaining the journal. `--startup` falls back to the verified baseline if installation fails. Keep release directories immutable after installation. Update the systemd drop-in to the exact versioned release path.

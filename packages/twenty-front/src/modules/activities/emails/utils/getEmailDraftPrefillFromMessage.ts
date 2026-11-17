@@ -9,6 +9,7 @@ import { MessageParticipantRole } from 'twenty-shared/types';
 
 export const getEmailDraftPrefillFromMessage = (
   message: Pick<EmailThreadMessageWithSender, 'id' | 'subject' | 'text'> & {
+    headerMessageId?: string;
     messageParticipants: Pick<
       EmailThreadMessageParticipant,
       'role' | 'handle' | 'displayName'
@@ -29,6 +30,9 @@ export const getEmailDraftPrefillFromMessage = (
 
   return {
     messageId: message.id,
+    headerMessageId: message.headerMessageId,
+    rawText: message.text,
+    rawFrom: joinRecipientsByRole(MessageParticipantRole.FROM),
     to: joinRecipientsByRole(MessageParticipantRole.TO),
     cc: joinRecipientsByRole(MessageParticipantRole.CC),
     bcc: joinRecipientsByRole(MessageParticipantRole.BCC),
