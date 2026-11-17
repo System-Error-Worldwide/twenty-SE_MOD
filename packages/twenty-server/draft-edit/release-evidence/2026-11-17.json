@@ -1,0 +1,83 @@
+{
+  "candidate": "0816b91217a6a9dd23ed10a05b2e18acd833cd9f",
+  "tree": "22da31edad828c2d69075178da52f13066036d43",
+  "archiveSha256": "c6694529d0c0ef80e3e8e0685ed303e835d0bc4591aebf420467ce3e0ed444fa",
+  "evidenceSha256": "effd0a0cfa616d1370dfb4af791a4c04ee9dfb14fb5ae0c1e8cb4148bd0272f9",
+  "verdict": "PASS",
+  "checks": [
+    {
+      "checkId": "unit-rules",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "f57f82c77915df26ab3267e470cd113221857284ec5f2ff0836677fabfc2aca3"
+    },
+    {
+      "checkId": "isolated-mailbox-and-release",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "e82f4358a8bdb00cd129e6c8809b90b27f1e3783f4add5a6010f5f2cb215cb59"
+    },
+    {
+      "checkId": "frontend-source-binding",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "c8596924031da0f109830c2356457c0908f7df6f0d8eef65f305611e700199ee"
+    },
+    {
+      "checkId": "frontend-hooks",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "92cdcc74eafefc8cb91a51f0a13e350207c960b739e29a6b46b864c02f434c79"
+    },
+    {
+      "checkId": "independent-boundaries-recovery",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "4b3a2dd0c4c14273e87c3368ee04a5784f78c5afcd99e68a9feedcfde5598047"
+    },
+    {
+      "checkId": "independent-partial-refresh",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "676c6448bc7e54acbe36543216e99f172530aae94339de38f7cbb7637d7c892b"
+    },
+    {
+      "checkId": "native-observation-receipt",
+      "required": true,
+      "status": "PASS",
+      "exitCode": 0,
+      "outputDigest": "eb157b7b3f4b5b17bf0db7dac707796e3602e95180129e4efe44d4271bf1f843"
+    }
+  ],
+  "evaluatorInvocationId": "release-acceptance-0816b91217",
+  "completedAt": "2026-11-17T03:55:42.022Z",
+  "schemaVersion": 1,
+  "runId": "twenty-draft-edit-acceptance-20261117",
+  "qaRunId": "twenty-release-0816b91217",
+  "integration": {
+    "pullRequest": 1,
+    "mergeCommit": "8c3f170df3bc94d774a14fa5cf627bc63afca135",
+    "defaultBranch": "se/v2.58"
+  },
+  "deployment": {
+    "installedAt": "2026-11-17T04:05:45Z",
+    "rollbackVerifiedAt": "2026-11-17T04:08:14Z",
+    "finalReinstallAt": "2026-11-17T04:11:22Z",
+    "health": "PASS",
+    "authenticatedMcpOnBaselineAndCandidate": "PASS",
+    "startupInstaller": "PASS",
+    "backendSha256": "631acd320f337920593afe8b4fcd57a9987c1e485953ba18c72aba741e563eb9",
+    "frontendIndexSha256": "e1bdc5d8ce74328615910da22d50503bbb5fd1d4468660e223a084ea61b72807",
+    "baselineBackendSha256": "e3d8c5af2ca3111550d09838ef04e4f67d927f32109d9740cc94f944dc4c972c",
+    "baselineFrontendIndexSha256": "f0d425cf8aef804d6c94e78c7f0721634cd138409aeda19a515d4df384a7ebcc",
+    "nativeDraftSaveWithPdf": "PASS",
+    "reloadAndCrmDraftReadback": "PASS",
+    "emailsSent": 0
+  }
+}
